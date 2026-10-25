@@ -8,3 +8,4 @@ RUN chown root:bind /etc/bind/named.conf.options /etc/bind/named.conf.local && \
     chmod 644 /etc/bind/named.conf.options /etc/bind/named.conf.local
 EXPOSE 53/tcp 53/udp
 CMD ["/usr/sbin/named", "-g", "-c", "/etc/bind/named.conf"]
+## File edit to confirm polling works
