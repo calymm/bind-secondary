@@ -1,0 +1,11 @@
+zone "lab.cmacleod8.300.ops" {
+    type secondary;
+    primaries { 192.168.76.10; };
+    file "/var/cache/bind/db.lab.cmacleod8.300.ops";
+};
+
+zone "76.168.192.in-addr.arpa" {
+    type secondary;
+    primaries { 192.168.76.10; };
+    file "/var/cache/bind/db.76.168.192";
+};
