@@ -1,0 +1,27 @@
+acl trusted_clients {
+    192.168.76.0/24;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    forwarders { 192.168.76.5; };
+    forward only;
+
+    dnssec-validation no;
+
+    recursion yes;
+    allow-recursion   { localhost; trusted_clients; };
+    allow-query-cache { localhost; trusted_clients; };
+    allow-query       { localhost; trusted_clients; };
+    allow-transfer    { none; };
+
+    blackhole {
+        10/8; 172.16/12;
+        224/8;
+        169.254/16;
+    };
+
+    listen-on    { any; };
+    listen-on-v6 { none; };
+};
