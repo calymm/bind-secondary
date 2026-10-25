@@ -11,6 +11,14 @@ pipeline {
                 sh 'podman build -t "$IMAGE:$BUILD_NUMBER" .'
             }
         }
+        stage('Scan') {
+            steps {
+                sh '''
+                    podman save --format docker-archive -o "scan-$BUILD_NUMBER.tar" "$IMAGE:$BUILD_NUMBER"
+                    trivy image --input "scan-$BUILD_NUMBER.tar" --severity HIGH,CRITICAL --exit-code 1 --no-progress
+                '''
+            }
+        }
         stage('Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'registry-login',
@@ -23,6 +31,11 @@ pipeline {
                     '''
                 }
             }
+        }
+    }
+    post {
+        always {
+            sh 'rm -f scan-*.tar'
         }
     }
 }
